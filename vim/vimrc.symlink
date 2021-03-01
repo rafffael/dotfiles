@@ -1,0 +1,180 @@
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   __     _____ __  __    ____             __ _
+"   \ \   / /_ _|  \/  |  / ___|___  _ __  / _(_) __ _
+"    \ \ / / | || |\/| | | |   / _ \| '_ \| |_| |/ _` |
+"     \ V /  | || |  | | | |__| (_) | | | |  _| | (_| |
+"      \_/  |___|_|  |_|  \____\___/|_| |_|_| |_|\__, |
+"                                                |___/
+" Config VIM @rafffael
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if !has('nvim')
+    set term=screen-256color
+endif
+
+let mapleader = " "
+
+call plug#begin('~/.vim/plugged')
+  Plug 'airblade/vim-gitgutter'
+  Plug 'majutsushi/tagbar'
+  Plug 'morhetz/gruvbox'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+  Plug 'terryma/vim-expand-region'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-surround'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-syntastic/syntastic'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+call plug#end()
+
+let g:airline#extensions#tabline#enabled = 1
+
+let NERDTreeMinimalUI= 1
+let NERDTreeShowHidden = 1
+
+let g:coc_disable_startup_warning = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+syntax on
+set nocompatible
+set autoread
+au CursorHold,CursorHoldI * checktime
+
+set lazyredraw
+set clipboard^=unnamed,unnamedplus
+set number
+set relativenumber
+set splitbelow splitright
+set colorcolumn=80
+set mouse=nv
+set shortmess+=c
+set smartindent
+set expandtab
+set softtabstop=2
+set shiftwidth=2
+set incsearch
+set hlsearch
+set cursorline
+set showmatch
+set matchtime=3
+set virtualedit=onemore
+set history=100
+set wildmenu
+set wildmode=longest,list,full
+set scrolloff=10
+set sidescrolloff=5
+set noshowmode
+set hidden
+set backspace=indent,eol,start
+set showtabline=2
+set laststatus=2
+set updatetime=300
+set ignorecase
+set smartcase
+set list
+set listchars=tab:→\ ,trail:·
+let &showbreak="\u21aa "
+set nowrap
+set encoding=utf-8
+set fileencoding=utf-8
+set synmaxcol=300
+set guioptions-=T
+set iskeyword+=\-
+set tabstop=4
+set shiftwidth=4
+set path+=**
+set cmdheight=2
+
+""" Prevent lag when hitting escape
+set ttimeoutlen=0
+set timeoutlen=1000
+au InsertEnter * set timeout
+au InsertLeave * set notimeout
+
+""" Key mappings
+" Map Ctrl+C to escape
+map <C-c> <Esc>
+
+nmap <leader>t :TagbarToggle<CR>
+nmap <leader>o :NERDTreeToggle<CR>
+
+nmap <leader>bn :bnext<CR>
+nmap <leader>bp :bprevious<CR>
+nmap <leader>bd :bd<CR>
+
+map <C-e> <Plug>(expand_region_expand)
+map <C-s> <Plug>(expand_region_shrink)
+
+" Basic stuff
+nnoremap c "_c
+nnoremap x "_x
+
+" Move between windows
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+" Window resizing
+nnoremap <silent> <leader>+ :exe "resize -5"<CR>
+nnoremap <silent> <leader>- :exe "resize +5"<CR>
+nnoremap <silent> <leader>/ :exe "vertical resize +5"<CR>
+nnoremap <silent> <leader>* :exe "vertical resize -5"<CR>
+
+" Close window
+map <C-q> <C-w>c
+
+" Move quickly up/down
+nnoremap J 15j<CR>
+nnoremap K 15k<CR>
+
+" Replace all
+nnoremap S :%s//g<Left><Left>
+
+" Move selection up/down
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Ctrl D - Duplicate Line
+nmap <C-d> mjyyp`jj
+vmap <C-d> y`]pgv=gv
+
+""" FZF
+nnoremap <silent> <C-f> :Rg<CR>
+nnoremap <silent> <C-p> :Files<CR>
+
+""" Coc Shortcuts
+nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gi <Plug>(coc-implementation)
+nmap <leader>gr <Plug>(coc-references)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>qf <Plug>(coc-fix-current)
+nmap <leader>rn <Plug>(coc-rename)
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+" Formatting selected code
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+" Speed up the redraw
+au CursorHold * let &ro = &ro
+
+" Remove trailing spaces
+autocmd BufWritePre * %s/\s\+$//e
+
+""" Color Scheme
+set background=dark
+colorscheme gruvbox
+
